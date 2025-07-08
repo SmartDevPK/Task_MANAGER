@@ -16,8 +16,8 @@ export class TasksController {
   @Patch(':id/status')
    async updateTaskStatus(
     @Param('id') id: string,
-    @Body() updateTaskStatusDto: updateTaskStatusDto
+    @Body() UpdateTaskStatusDto: updateTaskStatusDto
    ): Promise<Task> {
-    return this.tasksService.updateTaskStatus(+id, updateTaskStatusDto.status)
+    return this.tasksService.updateTaskStatus(+id, UpdateTaskStatusDto.status)
    }
 }

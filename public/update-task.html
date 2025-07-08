@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Update Task Status</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      background-color: #28a745;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Update Task Status</h2>
+    <form id="updateForm">
+      <label for="taskId">Task ID</label>
+      <input type="number" id="taskId" name="taskId" required />
+
+      <label for="status">New Status</label>
+      <select id="status" name="status" required>
+        <option value="">Select status</option>
+        <option value="OPEN">OPEN</option>
+        <option value="IN_PROGRESS">IN_PROGRESS</option>
+        <option value="DONE">DONE</option>
+      </select>
+
+      <button type="submit">Update Status</button>
+    </form>
+    <div id="message"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById("updateForm");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const taskId = document.getElementById("taskId").value;
+      const status = document.getElementById("status").value;
+      const message = document.getElementById("message");
+
+      try {
+        const response = await fetch(`http://localhost:6018/tasks/${taskId}/status`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status }),
+        });
+
+        if (!response.ok) {
+          message.textContent = "Failed to update task status";
+          message.style.color = "red";
+        } else {
+          message.textContent = "Task status updated successfully!";
+          message.style.color = "green";
+        }
+
+        form.reset();
+      } catch (error) {
+        message.textContent = "Error: " + error.message;
+        message.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>
