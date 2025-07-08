@@ -1,21 +1,20 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
-@Entity ()
-export  class Task {
-    @PrimaryGeneratedColumn()
-    id: number;
+@Entity('task')  // <-- sets the table name explicitly to "tasks"
+export class Task {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    
   @Column()
-   title: string;
+  title: string;
 
-   
-  @Column({nullable: true})
-  description: String;
+  @Column({ nullable: true })
+  description: string;
 
-  @Column({default: false})
+  @Column({ default: 'false' })
   status: string;
 
   @CreateDateColumn()
   created_at: Date;
 }
+
