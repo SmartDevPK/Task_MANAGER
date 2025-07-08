@@ -10,7 +10,7 @@ export class TasksService {
     @InjectRepository(Task)
     private tasksRepository: Repository<Task>,
   ) {}
-
+ //
   async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
     const { title, description, status } = createTaskDto;
 
@@ -20,7 +20,21 @@ export class TasksService {
       status,
     });
 
+  
+
     await this.tasksRepository.save(task);
     return task;
   }
+   
+    // 
+    async updateTaskStatus(id: number, status: "OPEN"  | "IN_PROGRESS" | "DONE"): Promise<Task> {
+      const task = await this.tasksRepository.findOneBy({ id});
+      if (!task) {
+        throw new Error(`Task with ID  ${id} not found`);
+      }
+      task.status = status;
+      await this.tasksRepository.save(task);
+      return task;
+      
+    }
 }
