@@ -93,13 +93,13 @@
 
       try {
         const response = await fetch(`http://localhost:6018/tasks/${taskId}/status`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ status }),
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ status: status }),
         });
-
+         
         if (!response.ok) {
           message.textContent = "Failed to update task status";
           message.style.color = "red";
